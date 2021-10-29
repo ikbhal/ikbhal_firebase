@@ -9,9 +9,44 @@
 <body>
     <h1>Did you take bath today?</h1>
     <p>Take bath regulary atleast 3 days onces.daily is better, worst case once in week.</p>
-    <form action="" >
-        Bath Date <input type='date' name='bath_date'><br>
+    <form id ="bath_save_form" action="">
+        Bath Date <input type='date' name='bath_date' id='bath_date'><br>
         <button type="submit">Save</button>
     </form>
+    <script>
+
+
+    
+        firebase.initializeApp({
+                    apiKey: 'AIzaSyCqJyBoPLXy4CpotZPOsSKjK4rKJTCAbgE',
+                    authDomain: 'ikbhal-cb53f.firebaseapp.com',
+                    projectId: 'ikbhal-cb53f'
+                    });
+
+        var db = firebase.firestore();
+
+        document.getElementById("bath_save_form").addEventListener("onsubmit", function(event){
+            event.preventDefault();
+            saveBath();
+        });
+
+        function saveBath() {
+            // from https://console.firebase.google.com/project/ikbhal-cb53f/settings/general/web:YmM4ODExMDktNzMzZi00NzExLTljY2QtN2EyMmNmOWE5ZTNm
+            // Initialize Cloud Firestore through Firebase
+            // e.preventDefault();
+
+            var bathDate = document.getElementById('bath_date').value;
+
+            db.collection("bath").add({
+                bath_date: bathDate
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+        }
+    </script>
 </body>
 </html>
